@@ -24,13 +24,11 @@ exports.signup = function(req, res) {
     console.log("Data is", username, password)
 
     if (!username || !password || !password2) {
-        res.send('error', "Please, fill in all the fields.")
-        res.redirect('signup')
+        return res.status(404).send("Please, fill in all the fields.");
     }
 
     if (password !== password2) {
-        res.send('error', "Please, enter the same password twice.")
-        res.redirect('signup')
+        return res.status(404).send("Please, enter the same password twice.")
     }
 
     var salt = bcrypt.genSaltSync(10)
@@ -42,41 +40,16 @@ exports.signup = function(req, res) {
         password: hashedPassword
     }
 
-    User.User.create(newUser).then(function() {
-        res.redirect('/loggedin')
-    }).catch(function(error) {
-        res.send("Please, choose a different username.")
-        res.redirect('/signup')
+    User.User.create(newUser).catch(function(err) {
+        return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+
+        })
+    }).then(function() {
+        newUser.password = undefined;
+        newUser.salt = undefined;
+        return res.json(newUser)
     })
-
-    // // Init Variables
-    // var user = new User(req.body);
-    // var message = null;
-
-    // // Add missing user fields
-    // user.provider = 'local';
-    // user.displayName = user.firstName + ' ' + user.lastName;
-
-    // // Then save the user
-    // user.save(function(err) {
-    //     if (err) {
-    //         return res.status(400).send({
-    //             message: errorHandler.getErrorMessage(err)
-    //         });
-    //     } else {
-    //         // Remove sensitive data before login
-    //         user.password = undefined;
-    //         user.salt = undefined;
-
-    //         req.login(user, function(err) {
-    //             if (err) {
-    //                 res.status(400).send(err);
-    //             } else {
-    //                 res.json(user);
-    //             }
-    //         });
-    //     }
-    // });
 };
 
 /**
@@ -90,7 +63,6 @@ exports.signin = function(req, res, next) {
             // Remove sensitive data before login
             user.password = undefined;
             user.salt = undefined;
-
             req.login(user, function(err) {
                 if (err) {
                     res.status(400).send(err);
