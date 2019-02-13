@@ -3,8 +3,7 @@ var passport = require('passport'),
     bcrypt = require('bcrypt'),
     Model = require('./models/models.js'),
     session = require("express-session"),
-    bodyParser = require("body-parser"),
-    passport = require("passport");
+    bodyParser = require("body-parser");
 
 module.exports = function(app) {
     app.use(bodyParser.json())

@@ -5,9 +5,9 @@
  */
 var _ = require('lodash'),
     errorHandler = require('../errors.server.controller'),
-    mongoose = require('mongoose'),
     passport = require('passport'),
-    User = mongoose.model('User');
+    User = require("../../models/user.server.model"),
+    bcrypt = require('bcrypt');
 
 /**
  * Signup
@@ -16,34 +16,67 @@ exports.signup = function(req, res) {
     // For security measurement we remove the roles from the req.body object
     delete req.body.roles;
 
-    // Init Variables
-    var user = new User(req.body);
-    var message = null;
+    console.log("Signup")
+    var username = req.body.username
+    var password = req.body.password
+    var password2 = req.body.password2
 
-    // Add missing user fields
-    user.provider = 'local';
-    user.displayName = user.firstName + ' ' + user.lastName;
+    console.log("Data is", username, password)
 
-    // Then save the user
-    user.save(function(err) {
-        if (err) {
-            return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
-            });
-        } else {
-            // Remove sensitive data before login
-            user.password = undefined;
-            user.salt = undefined;
+    if (!username || !password || !password2) {
+        res.send('error', "Please, fill in all the fields.")
+        res.redirect('signup')
+    }
 
-            req.login(user, function(err) {
-                if (err) {
-                    res.status(400).send(err);
-                } else {
-                    res.json(user);
-                }
-            });
-        }
-    });
+    if (password !== password2) {
+        res.send('error', "Please, enter the same password twice.")
+        res.redirect('signup')
+    }
+
+    var salt = bcrypt.genSaltSync(10)
+    var hashedPassword = bcrypt.hashSync(password, salt)
+
+    var newUser = {
+        username: username,
+        salt: salt,
+        password: hashedPassword
+    }
+
+    User.User.create(newUser).then(function() {
+        res.redirect('/loggedin')
+    }).catch(function(error) {
+        res.send("Please, choose a different username.")
+        res.redirect('/signup')
+    })
+
+    // // Init Variables
+    // var user = new User(req.body);
+    // var message = null;
+
+    // // Add missing user fields
+    // user.provider = 'local';
+    // user.displayName = user.firstName + ' ' + user.lastName;
+
+    // // Then save the user
+    // user.save(function(err) {
+    //     if (err) {
+    //         return res.status(400).send({
+    //             message: errorHandler.getErrorMessage(err)
+    //         });
+    //     } else {
+    //         // Remove sensitive data before login
+    //         user.password = undefined;
+    //         user.salt = undefined;
+
+    //         req.login(user, function(err) {
+    //             if (err) {
+    //                 res.status(400).send(err);
+    //             } else {
+    //                 res.json(user);
+    //             }
+    //         });
+    //     }
+    // });
 };
 
 /**
