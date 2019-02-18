@@ -16,7 +16,6 @@
         "server": "nodemon"
     },
     "dependencies": {
-        "@types/express": "^4.16.1",
         "apicache": "0.0.x",
         "async": "1.5.x",
         "bcrypt": "3.x",
@@ -69,7 +68,6 @@
         "x-frame-options": "*"
     },
     "devDependencies": {
-        "@types/node": "^10.12.24",
         "grunt-concurrent": "2.3.*",
         "grunt-contrib-csslint": "1.0.*",
         "grunt-contrib-cssmin": "1.0.*",
@@ -88,7 +86,6 @@
         "load-grunt-tasks": "3.5.*",
         "nodemon": "^1.18.10",
         "should": "*",
-        "supertest": "*",
-        "typings": "latest"
+        "supertest": "*"
     }
 }
