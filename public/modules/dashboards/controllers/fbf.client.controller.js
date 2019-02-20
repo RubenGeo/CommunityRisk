@@ -2385,8 +2385,8 @@ angular.module("dashboards").controller("FbfController", [
         }
 
         /* $scope.sql = 'CREATE TABLE public.test123(id int not null,name text not null,rollnumber int not null);';
-                
-                Data.get({adminLevel: $scope.sql}, 
+
+                Data.get({adminLevel: $scope.sql},
                     function(){
                         console.log('upload succesfull');
                 });	 */

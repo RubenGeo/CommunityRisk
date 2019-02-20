@@ -101,6 +101,7 @@ angular.module("dashboards").controller("CommunityRiskController", [
     var mapfilters_length = 0;
     var d_prev = "";
     var map;
+
     $scope.config = {
       whereFieldName: "pcode",
       joinAttribute: "pcode",
@@ -2380,8 +2381,8 @@ angular.module("dashboards").controller("CommunityRiskController", [
         }
 
         /* $scope.sql = 'CREATE TABLE public.test123(id int not null,name text not null,rollnumber int not null);';
-                
-                Data.get({adminLevel: $scope.sql}, 
+
+                Data.get({adminLevel: $scope.sql},
                     function(){
                         console.log('upload succesfull');
                 });	 */
@@ -2496,6 +2497,14 @@ angular.module("dashboards").controller("CommunityRiskController", [
         ]);
       }
       zoomToGeom($scope.geom);
+
+      var countriesAndBoundaries = L.tileLayer
+        .wms("http://localhost:8080/geoserver/FbF_Zambia/wms?", {
+          layers: "ESA_Clipped2",
+          transparent: true,
+          format: "image/png",
+        })
+        .addTo(map);
 
       // if ($scope.directURLload) {
       // if ($scope.filters_url.length > 0) {
