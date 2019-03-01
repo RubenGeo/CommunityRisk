@@ -2260,7 +2260,7 @@ angular.module("dashboards").controller("CommunityRiskController", [
         .addTo(map);
 
       var legend = L.control({ position: "bottomright" });
-      legend.onAdd = function(map) {
+      legend.onAdd = function() {
         var div = L.DomUtil.create("div", "info legend");
         div.innerHTML +=
           '<img src="http://localhost:8080/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=FbF_Zambia:Chicken" alt="legend" width="145" height="130">';
