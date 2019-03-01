@@ -2276,6 +2276,8 @@ angular.module("dashboards").controller("CommunityRiskController", [
         })
         .addTo(map);
 
+      console.log(glofas, countriesAndBoundaries, map);
+
       //Automatically fill country-dropdown menu
       //First sort country-items in right order
       var sort_by;
