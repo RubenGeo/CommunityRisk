@@ -2240,6 +2240,17 @@ angular.module("dashboards").controller("CommunityRiskController", [
       }
       zoomToGeom($scope.geom);
 
+      //Show map
+      if ($scope.chart_show == "map") {
+        $("#row-chart-container").hide();
+      } else if ($scope.chart_show == "row") {
+        $scope.tabularShow();
+      }
+
+      var zoom_child = $(".leaflet-control-zoom")[0];
+      var zoom_parent = $(".leaflet-bottom.leaflet-right")[0];
+      zoom_parent.insertBefore(zoom_child, zoom_parent.childNodes[0]);
+
       var countriesAndBoundaries = L.tileLayer
         .wms("http://localhost:8080/geoserver/FbF_Zambia/wms?", {
           layers: "Chicken",
@@ -2257,16 +2268,13 @@ angular.module("dashboards").controller("CommunityRiskController", [
       };
       legend.addTo(map);
 
-      //Show map
-      if ($scope.chart_show == "map") {
-        $("#row-chart-container").hide();
-      } else if ($scope.chart_show == "row") {
-        $scope.tabularShow();
-      }
-
-      var zoom_child = $(".leaflet-control-zoom")[0];
-      var zoom_parent = $(".leaflet-bottom.leaflet-right")[0];
-      zoom_parent.insertBefore(zoom_child, zoom_parent.childNodes[0]);
+      var glofas = L.tileLayer
+        .wms("http://localhost:8080/geoserver/FbF_Zambia/wms?", {
+          layers: "Glofas_loc",
+          transparent: true,
+          format: "image/png",
+        })
+        .addTo(map);
 
       //Automatically fill country-dropdown menu
       //First sort country-items in right order
