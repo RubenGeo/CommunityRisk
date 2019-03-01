@@ -2500,7 +2500,7 @@ angular.module("dashboards").controller("CommunityRiskController", [
 
       var countriesAndBoundaries = L.tileLayer
         .wms("http://localhost:8080/geoserver/FbF_Zambia/wms?", {
-          layers: "ESA_Clipped",
+          layers: "Chicken",
           transparent: true,
           format: "image/png",
         })
@@ -2510,7 +2510,7 @@ angular.module("dashboards").controller("CommunityRiskController", [
       legend.onAdd = function(map) {
         var div = L.DomUtil.create("div", "info legend");
         div.innerHTML +=
-          '<img src="http://localhost:8080/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=FbF_Zambia:ESA_Clipped" alt="legend" width="145" height="130">';
+          '<img src="http://localhost:8080/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=FbF_Zambia:Chicken" alt="legend" width="145" height="130">';
         return div;
       };
       legend.addTo(map);
